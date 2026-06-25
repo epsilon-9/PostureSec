@@ -17,7 +17,7 @@ async function initDB() {
         title VARCHAR(255) NOT NULL,
         content TEXT NOT NULL,
         author VARCHAR(100) NOT NULL DEFAULT 'Anonymous',
-        emoji VARCHAR(10) DEFAULT '✨',
+        emoji VARCHAR(10) DEFAULT '🛡️',
         created_at TIMESTAMP DEFAULT NOW(),
         updated_at TIMESTAMP DEFAULT NOW()
       );

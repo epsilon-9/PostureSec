@@ -12,7 +12,7 @@ function CommentSection({ postId, comments, onUpdate }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!content.trim()) {
-      toast.error('Write something bestie! 💬');
+      toast.error('Please enter a comment.');
       return;
     }
 
@@ -25,7 +25,7 @@ function CommentSection({ postId, comments, onUpdate }) {
       });
       setAuthor('');
       setContent('');
-      toast.success('Comment dropped! 💬');
+      toast.success('Comment posted.');
       onUpdate();
     } catch (err) {
       toast.error('Failed to post comment 😢');
@@ -61,14 +61,14 @@ function CommentSection({ postId, comments, onUpdate }) {
         </div>
         <div className="comment-form-row">
           <textarea
-            placeholder="Drop your thoughts... 💭"
+            placeholder="Add your thoughts or feedback..."
             value={content}
             onChange={(e) => setContent(e.target.value)}
             rows={3}
           />
         </div>
         <button type="submit" className="btn btn-primary btn-sm" disabled={submitting}>
-          {submitting ? 'Posting...' : 'Send it 🚀'}
+          {submitting ? 'Posting...' : 'Post Comment'}
         </button>
       </form>
 
@@ -97,7 +97,7 @@ function CommentSection({ postId, comments, onUpdate }) {
 
       {comments.length === 0 && (
         <div style={{ textAlign: 'center', color: 'var(--text-muted)', padding: '2rem' }}>
-          No comments yet. Be the first to vibe! ✨
+          No comments yet. Be the first to share your perspective.
         </div>
       )}
     </div>

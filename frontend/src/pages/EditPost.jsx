@@ -4,7 +4,7 @@ import { getPost, updatePost } from '../api';
 import { HiArrowLeft } from 'react-icons/hi2';
 import toast from 'react-hot-toast';
 
-const EMOJIS = ['✨', '🔥', '💡', '🚀', '💀', '🎯', '💎', '🌈', '🎵', '📸', '🧠', '💬', '❤️', '⚡', '🌊', '🍕'];
+const EMOJIS = ['🛡️', '🔒', '🔐', '💻', '🚨', '⚠️', '🔍', '🌐', '📡', '🧩', '🔑', '📋', '🎯', '⚡', '🛠️', '🔬'];
 
 function EditPost() {
   const { id } = useParams();
@@ -12,7 +12,7 @@ function EditPost() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [author, setAuthor] = useState('');
-  const [emoji, setEmoji] = useState('✨');
+  const [emoji, setEmoji] = useState('🛡️');
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
@@ -26,7 +26,7 @@ function EditPost() {
       setTitle(res.data.title);
       setContent(res.data.content);
       setAuthor(res.data.author);
-      setEmoji(res.data.emoji || '✨');
+      setEmoji(res.data.emoji || '🛡️');
     } catch (err) {
       toast.error('Post not found 😢');
       navigate('/');
@@ -51,7 +51,7 @@ function EditPost() {
         author: author.trim() || 'Anonymous',
         emoji,
       });
-      toast.success('Post updated! Glow up complete ✨');
+      toast.success('Post updated successfully.');
       navigate(`/post/${id}`);
     } catch (err) {
       toast.error('Failed to update post 😢');
@@ -77,7 +77,7 @@ function EditPost() {
 
       <form className="form-card" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Pick a vibe</label>
+          <label>Pick an icon</label>
           <div className="emoji-picker">
             {EMOJIS.map((e) => (
               <button

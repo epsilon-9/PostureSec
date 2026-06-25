@@ -34,20 +34,20 @@ function Home() {
   return (
     <div>
       <div className="home-header">
-        <h1>Welcome to Jerney 🛤️</h1>
-        <p>A blog platform for the main characters. Share your thoughts, vibes, and hot takes.</p>
+        <h1>Welcome to PostureSec 🛡️</h1>
+        <p>The cybersecurity knowledge platform by Posture. Share threat intel, security insights, and best practices.</p>
         <div className="vibe-tags">
-          <span className="vibe-tag">✨ no cap content</span>
-          <span className="vibe-tag">🔥 hot takes</span>
-          <span className="vibe-tag">💎 real ones only</span>
+          <span className="vibe-tag">🔒 threat intel</span>
+          <span className="vibe-tag">🛡️ zero trust</span>
+          <span className="vibe-tag">🔍 security posture</span>
         </div>
       </div>
 
       {posts.length === 0 ? (
         <div className="empty-state">
           <div className="empty-emoji">📝</div>
-          <h3>No posts yet, bestie</h3>
-          <p>Be the first to share your thoughts on this journey</p>
+          <h3>No posts yet</h3>
+          <p>Be the first to share security insights with the team</p>
           <Link to="/create" className="btn btn-primary">
             <HiPlus size={18} />
             Write something
