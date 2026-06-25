@@ -67,7 +67,7 @@ function PostDetail() {
         <div className="post-detail-meta">
           <span className="author-chip">👤 {post.author}</span>
           <span>{timeAgo}</span>
-          {wasEdited && <span style={{ color: 'var(--accent-purple)' }}>(edited)</span>}
+          {wasEdited && <span style={{ color: 'var(--accent-primary)' }}>(edited)</span>}
         </div>
 
         <div className="post-detail-actions">
@@ -91,7 +91,7 @@ function PostDetail() {
       {showDeleteModal && (
         <ConfirmModal
           title="Delete this post?"
-          message="This is permanent, no take-backs bestie. All comments will be gone too."
+          message="This action is permanent. All comments will be deleted as well."
           emoji="💀"
           onConfirm={handleDelete}
           onCancel={() => setShowDeleteModal(false)}

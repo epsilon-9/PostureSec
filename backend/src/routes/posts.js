@@ -54,7 +54,7 @@ router.post('/', async (req, res) => {
       `INSERT INTO posts (title, content, author, emoji) 
        VALUES ($1, $2, $3, $4) 
        RETURNING *`,
-      [title, content, author || 'Anonymous', emoji || '✨']
+      [title, content, author || 'Anonymous', emoji || '🛡️']
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
@@ -77,7 +77,7 @@ router.put('/:id', async (req, res) => {
        SET title = $1, content = $2, author = $3, emoji = $4, updated_at = NOW() 
        WHERE id = $5 
        RETURNING *`,
-      [title, content, author || 'Anonymous', emoji || '✨', req.params.id]
+      [title, content, author || 'Anonymous', emoji || '🛡️', req.params.id]
     );
 
     if (result.rows.length === 0) {

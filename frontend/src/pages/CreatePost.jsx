@@ -4,21 +4,21 @@ import { createPost } from '../api';
 import { HiArrowLeft } from 'react-icons/hi2';
 import toast from 'react-hot-toast';
 
-const EMOJIS = ['✨', '🔥', '💡', '🚀', '💀', '🎯', '💎', '🌈', '🎵', '📸', '🧠', '💬', '❤️', '⚡', '🌊', '🍕'];
+const EMOJIS = ['🛡️', '🔒', '🔐', '💻', '🚨', '⚠️', '🔍', '🌐', '📡', '🧩', '🔑', '📋', '🎯', '⚡', '🛠️', '🔬'];
 
 function CreatePost() {
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [author, setAuthor] = useState('');
-  const [emoji, setEmoji] = useState('✨');
+  const [emoji, setEmoji] = useState('🛡️');
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!title.trim() || !content.trim()) {
-      toast.error('Title and content are required, bestie! 😤');
+      toast.error('Title and content are required.');
       return;
     }
 
@@ -48,7 +48,7 @@ function CreatePost() {
 
       <form className="form-card" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Pick a vibe</label>
+          <label>Pick an icon</label>
           <div className="emoji-picker">
             {EMOJIS.map((e) => (
               <button
@@ -68,7 +68,7 @@ function CreatePost() {
           <input
             id="title"
             type="text"
-            placeholder="Something fire goes here..."
+            placeholder="Security topic or finding..."
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             maxLength={255}
@@ -80,7 +80,7 @@ function CreatePost() {
           <input
             id="author"
             type="text"
-            placeholder="Your name (or stay anonymous, we don't judge)"
+            placeholder="Your name (or stay anonymous)"
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
             maxLength={100}
@@ -91,7 +91,7 @@ function CreatePost() {
           <label htmlFor="content">Content</label>
           <textarea
             id="content"
-            placeholder="Spill your thoughts... no character limit, go off 💅"
+            placeholder="Share your security insights, findings, or recommendations..."
             value={content}
             onChange={(e) => setContent(e.target.value)}
           />
@@ -99,10 +99,10 @@ function CreatePost() {
 
         <div className="form-actions">
           <button type="submit" className="btn btn-primary" disabled={submitting}>
-            {submitting ? 'Posting...' : 'Post it 🚀'}
+            {submitting ? 'Publishing...' : 'Publish Post'}
           </button>
           <Link to="/" className="btn btn-secondary">
-            Nvm, cancel
+            Cancel
           </Link>
         </div>
       </form>

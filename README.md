@@ -1,6 +1,6 @@
-# 🛤️ Jerney — Blog Platform
+# 🛡️ PostureSec — Posture Cybersecurity Platform
 
-A Gen-Z vibe blog platform built with a 3-tier architecture — React frontend, Node.js backend, and PostgreSQL database.
+A cybersecurity knowledge platform built with a 3-tier architecture — React frontend, Node.js backend, and PostgreSQL database.
 
 ![Tech Stack](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react)
 ![Tech Stack](https://img.shields.io/badge/Node.js-20-339933?style=flat-square&logo=node.js)
@@ -20,11 +20,11 @@ A Gen-Z vibe blog platform built with a 3-tier architecture — React frontend, 
 
 ## ✨ Features
 
-- 📝 Create blog posts with emoji vibes
-- ✏️ Edit your existing posts
-- 🗑️ Delete posts you're not feeling anymore
+- 📝 Create security posts with category icons
+- ✏️ Edit existing posts
+- 🗑️ Delete posts
 - 💬 Comment on posts
-- 🎨 Gen-Z dark UI with glassmorphism and gradients
+- 🎨 Dark green UI with glassmorphism and gradients
 
 ## 🏗️ Architecture
 
@@ -40,7 +40,7 @@ A Gen-Z vibe blog platform built with a 3-tier architecture — React frontend, 
 ## 📁 Project Structure
 
 ```
-Jerney/
+PostureSec/
 ├── frontend/                # React (Vite) frontend
 │   ├── src/                 # React components & pages
 │   ├── nginx.conf           # Nginx config for serving the app
@@ -50,7 +50,7 @@ Jerney/
 │   └── package.json
 ├── deploy/                  # EC2 deployment scripts
 │   ├── setup.sh             # One-click EC2 setup script
-│   └── jerney-nginx.conf    # Nginx reverse proxy config
+│   └── posturesec-nginx.conf # Nginx reverse proxy config
 └── README.md
 ```
 
@@ -68,7 +68,7 @@ Jerney/
 
 ```bash
 # From your local machine
-scp -r -i your-key.pem ./Jerney ubuntu@<EC2_PUBLIC_IP>:~/Jerney
+scp -r -i your-key.pem ./PostureSec ubuntu@<EC2_PUBLIC_IP>:~/PostureSec
 ```
 
 ### Step 2: SSH into the Instance
@@ -82,7 +82,7 @@ ssh -i your-key.pem ubuntu@<EC2_PUBLIC_IP>
 The `deploy/setup.sh` script installs everything and configures the app automatically:
 
 ```bash
-cd ~/Jerney
+cd ~/PostureSec
 chmod +x deploy/setup.sh
 ./deploy/setup.sh
 ```
@@ -111,7 +111,7 @@ pm2 status                          # Check backend status
 pm2 logs                            # View backend logs
 pm2 restart all                     # Restart backend
 sudo systemctl restart nginx        # Restart Nginx
-sudo -u postgres psql -d jerney_db  # Connect to database
+sudo -u postgres psql -d posturesec_db  # Connect to database
 ```
 
 ---
@@ -132,9 +132,9 @@ npm install
 # Create a .env file (or export these variables)
 export DB_HOST=localhost
 export DB_PORT=5432
-export DB_USER=jerney_user
-export DB_PASSWORD=jerney_pass_2026
-export DB_NAME=jerney_db
+export DB_USER=posturesec_user
+export DB_PASSWORD=posturesec_pass_2026
+export DB_NAME=posturesec_db
 export PORT=5000
 
 npm start
@@ -177,4 +177,4 @@ The Vite dev server starts on `http://localhost:3000` and proxies `/api` request
 
 ---
 
-Built with 💜 by the Jerney team. No cap, this blog platform hits different. 🛤️
+Built with 💚 by the Posture Cybersecurity team. 🛡️
