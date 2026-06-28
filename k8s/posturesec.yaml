@@ -1,6 +1,10 @@
 # ==============================================================
-# PostureSec — Posture Cybersecurity Platform - Kubernetes Manifest (Single File)
+# PostureSec � Posture Cybersecurity Platform - Kubernetes Manifest (Single File)
 # Includes: Namespace, Secrets, PVC (EBS), DB, Backend, Frontend
+#
+# Docker Hub: apply pull credentials first (private backend image):
+#   cp k8s/dockerhub-secret.yaml.example k8s/dockerhub-secret.yaml
+#   # edit token, then: kubectl apply -f k8s/dockerhub-secret.yaml
 # ==============================================================
 
 # ---- Namespace ----
@@ -15,9 +19,9 @@ metadata:
 # ---- Database Secret ----
 # In production, use External Secrets Operator or Sealed Secrets.
 # This is base64 encoded for demo purposes.
-# echo -n 'posturesec_user' | base64 → cG9zdHVyZXNlY191c2Vy
-# echo -n 'posturesec_pass_2026' | base64 → cG9zdHVyZXNlY19wYXNzXzIwMjY=
-# echo -n 'posturesec_db' | base64 → cG9zdHVyZXNlY19kYg==
+# echo -n 'posturesec_user' | base64 ? cG9zdHVyZXNlY191c2Vy
+# echo -n 'posturesec_pass_2026' | base64 ? cG9zdHVyZXNlY19wYXNzXzIwMjY=
+# echo -n 'posturesec_db' | base64 ? cG9zdHVyZXNlY19kYg==
 
 apiVersion: v1
 kind: Secret
@@ -138,7 +142,7 @@ spec:
             claimName: posturesec-db-pvc
 
 ---
-# ---- PostgreSQL Service (ClusterIP â€” internal only) ----
+# ---- PostgreSQL Service (ClusterIP � internal only) ----
 apiVersion: v1
 kind: Service
 metadata:
@@ -181,6 +185,8 @@ spec:
         app.kubernetes.io/component: backend
     spec:
       automountServiceAccountToken: false
+      imagePullSecrets:
+        - name: dockerhub-secret
       tolerations:
         - key: "karpenter.sh/disrupted"
           operator: "Exists"
@@ -200,7 +206,7 @@ spec:
               echo "DB is ready!"
       containers:
         - name: backend
-          image: ghcr.io/iam-veeramalla/posturesec/posturesec-backend:75da1da
+          image: docker.io/hacksoull/posturesec-backend:01b103f
           ports:
             - containerPort: 5000
               protocol: TCP
@@ -258,7 +264,7 @@ spec:
             timeoutSeconds: 3
 
 ---
-# ---- Backend Service (ClusterIP â€” internal only) ----
+# ---- Backend Service (ClusterIP � internal only) ----
 apiVersion: v1
 kind: Service
 metadata:
@@ -307,7 +313,7 @@ spec:
           effect: "NoSchedule"
       containers:
         - name: frontend
-          image: ghcr.io/iam-veeramalla/posturesec/posturesec-frontend:75da1da
+          image: docker.io/hacksoull/posturesec-frontend:01b103f
           ports:
             - containerPort: 8080
               protocol: TCP
@@ -340,7 +346,7 @@ spec:
             periodSeconds: 5
 
 ---
-# ---- Frontend Service (NodePort â€” for access via port-forward or node IP) ----
+# ---- Frontend Service (NodePort � for access via port-forward or node IP) ----
 # NOTE: Changed from LoadBalancer because this AWS account does not support
 # creating load balancers. Use `kubectl port-forward svc/posturesec-frontend 8080:80 -n posturesec`
 # to access the frontend locally.
