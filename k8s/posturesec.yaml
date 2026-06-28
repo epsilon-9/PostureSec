@@ -1,5 +1,5 @@
 # ==============================================================
-# PostureSec ÔøΩ Posture Cybersecurity Platform - Kubernetes Manifest (Single File)
+# PostureSec ù Posture Cybersecurity Platform - Kubernetes Manifest (Single File)
 # Includes: Namespace, Secrets, PVC (EBS), DB, Backend, Frontend
 #
 # Docker Hub: apply pull credentials first (private backend image):
@@ -142,7 +142,7 @@ spec:
             claimName: posturesec-db-pvc
 
 ---
-# ---- PostgreSQL Service (ClusterIP ÔøΩ internal only) ----
+# ---- PostgreSQL Service (ClusterIP ù internal only) ----
 apiVersion: v1
 kind: Service
 metadata:
@@ -264,7 +264,7 @@ spec:
             timeoutSeconds: 3
 
 ---
-# ---- Backend Service (ClusterIP ÔøΩ internal only) ----
+# ---- Backend Service (ClusterIP ù internal only) ----
 apiVersion: v1
 kind: Service
 metadata:
@@ -346,7 +346,7 @@ spec:
             periodSeconds: 5
 
 ---
-# ---- Frontend Service (NodePort ÔøΩ for access via port-forward or node IP) ----
+# ---- Frontend Service (NodePort ù for access via port-forward or node IP) ----
 # NOTE: Changed from LoadBalancer because this AWS account does not support
 # creating load balancers. Use `kubectl port-forward svc/posturesec-frontend 8080:80 -n posturesec`
 # to access the frontend locally.

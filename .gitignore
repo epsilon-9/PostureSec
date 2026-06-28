@@ -12,6 +12,7 @@ terraform/crash.log
 
 # Docker
 *.tar
+k8s/dockerhub-secret.yaml
 
 # OS
 .DS_Store
