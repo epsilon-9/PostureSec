@@ -19,8 +19,6 @@ permissions:
 
 env:
   DOCKER_REGISTRY: ghcr.io
-  BACKEND_IMAGE: ghcr.io/${{ github.repository }}/posturesec-backend
-  FRONTEND_IMAGE: ghcr.io/${{ github.repository }}/posturesec-frontend
 
 jobs:
   # ==============================================================
@@ -100,6 +98,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # GHCR requires lowercase repository paths in image references
+      - name: Set GHCR image paths
+        run: |
+          REPO=$(echo "${GITHUB_REPOSITORY}" | tr '[:upper:]' '[:lower:]')
+          echo "GHCR_REPO=ghcr.io/${REPO}" >> $GITHUB_ENV
+          echo "BACKEND_IMAGE=ghcr.io/${REPO}/posturesec-backend" >> $GITHUB_ENV
+          echo "FRONTEND_IMAGE=ghcr.io/${REPO}/posturesec-frontend" >> $GITHUB_ENV
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -114,7 +120,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ github.repository }}/posturesec-${{ matrix.component }}
+          images: ${{ env.GHCR_REPO }}/posturesec-${{ matrix.component }}
           tags: |
             type=sha,prefix=
             type=ref,event=branch
@@ -232,6 +238,12 @@ jobs:
       - name: Get short SHA
         id: sha
         run: echo "short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Set GHCR image paths
+        run: |
+          REPO=$(echo "${GITHUB_REPOSITORY}" | tr '[:upper:]' '[:lower:]')
+          echo "BACKEND_IMAGE=ghcr.io/${REPO}/posturesec-backend" >> $GITHUB_ENV
+          echo "FRONTEND_IMAGE=ghcr.io/${REPO}/posturesec-frontend" >> $GITHUB_ENV
 
       - name: Update K8s manifest with new image tags
         run: |

@@ -1,21 +1,13 @@
 # ==============================================================
-# PostureSec ÔøΩ Posture Cybersecurity Platform - Kubernetes Manifest (Single File)
-# Includes: Namespace, Secrets, PVC (EBS), DB, Backend, Frontend
+# PostureSec ù Posture Cybersecurity Platform - Kubernetes Manifest
+# Includes: Secrets, PVC (EBS), DB, Backend, Frontend
 #
-# Docker Hub: apply pull credentials first (private backend image):
-#   cp k8s/dockerhub-secret.yaml.example k8s/dockerhub-secret.yaml
-#   # edit token, then: kubectl apply -f k8s/dockerhub-secret.yaml
+# Apply order:
+#   1. kubectl apply -f k8s/namespace.yaml
+#   2. kubectl apply -f k8s/ghcr-secret.yaml   (see ghcr-secret.yaml.example)
+#   3. kubectl apply -f k8s/posturesec.yaml
 # ==============================================================
 
-# ---- Namespace ----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: posturesec
-  labels:
-    app.kubernetes.io/part-of: posturesec
-
----
 # ---- Database Secret ----
 # In production, use External Secrets Operator or Sealed Secrets.
 # This is base64 encoded for demo purposes.
@@ -101,7 +93,7 @@ spec:
           effect: "NoSchedule"
       containers:
         - name: postgres
-          image: postgres:16-alpine
+          image: public.ecr.aws/docker/library/postgres:16-alpine
           ports:
             - containerPort: 5432
               protocol: TCP
@@ -142,7 +134,7 @@ spec:
             claimName: posturesec-db-pvc
 
 ---
-# ---- PostgreSQL Service (ClusterIP ÔøΩ internal only) ----
+# ---- PostgreSQL Service (ClusterIP ù internal only) ----
 apiVersion: v1
 kind: Service
 metadata:
@@ -186,14 +178,14 @@ spec:
     spec:
       automountServiceAccountToken: false
       imagePullSecrets:
-        - name: dockerhub-secret
+        - name: ghcr-secret
       tolerations:
         - key: "karpenter.sh/disrupted"
           operator: "Exists"
           effect: "NoSchedule"
       initContainers:
         - name: wait-for-db
-          image: busybox:1.36
+          image: public.ecr.aws/docker/library/busybox:1.36
           command:
             - sh
             - -c
@@ -206,7 +198,8 @@ spec:
               echo "DB is ready!"
       containers:
         - name: backend
-          image: ghcr.io/Posture-Cybersecurity/PostureSec/posturesec-backend:740c7a3
+          image: ghcr.io/posture-cybersecurity/posturesec/posturesec-backend:740c7a3
+          imagePullPolicy: Always
           ports:
             - containerPort: 5000
               protocol: TCP
@@ -264,7 +257,7 @@ spec:
             timeoutSeconds: 3
 
 ---
-# ---- Backend Service (ClusterIP ÔøΩ internal only) ----
+# ---- Backend Service (ClusterIP ù internal only) ----
 apiVersion: v1
 kind: Service
 metadata:
@@ -307,13 +300,16 @@ spec:
         app.kubernetes.io/component: frontend
     spec:
       automountServiceAccountToken: false
+      imagePullSecrets:
+        - name: ghcr-secret
       tolerations:
         - key: "karpenter.sh/disrupted"
           operator: "Exists"
           effect: "NoSchedule"
       containers:
         - name: frontend
-          image: ghcr.io/Posture-Cybersecurity/PostureSec/posturesec-frontend:740c7a3
+          image: ghcr.io/posture-cybersecurity/posturesec/posturesec-frontend:740c7a3
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
               protocol: TCP
@@ -346,7 +342,7 @@ spec:
             periodSeconds: 5
 
 ---
-# ---- Frontend Service (NodePort ÔøΩ for access via port-forward or node IP) ----
+# ---- Frontend Service (NodePort ù for access via port-forward or node IP) ----
 # NOTE: Changed from LoadBalancer because this AWS account does not support
 # creating load balancers. Use `kubectl port-forward svc/posturesec-frontend 8080:80 -n posturesec`
 # to access the frontend locally.
