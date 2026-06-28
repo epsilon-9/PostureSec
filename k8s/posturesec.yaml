@@ -206,7 +206,7 @@ spec:
               echo "DB is ready!"
       containers:
         - name: backend
-          image: ghcr.io/Posture-Cybersecurity/PostureSec/posturesec-backend:ee93591
+          image: ghcr.io/Posture-Cybersecurity/PostureSec/posturesec-backend:db5dfb1
           ports:
             - containerPort: 5000
               protocol: TCP
@@ -313,7 +313,7 @@ spec:
           effect: "NoSchedule"
       containers:
         - name: frontend
-          image: ghcr.io/Posture-Cybersecurity/PostureSec/posturesec-frontend:ee93591
+          image: ghcr.io/Posture-Cybersecurity/PostureSec/posturesec-frontend:db5dfb1
           ports:
             - containerPort: 8080
               protocol: TCP
