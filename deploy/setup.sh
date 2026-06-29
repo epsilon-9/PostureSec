@@ -7,6 +7,11 @@
 
 set -e
 
+# Database credentials (must match PostgreSQL setup below and backend/.env)
+DB_USER="posturesec_user"
+DB_PASSWORD="posturesec_pass_2026"
+DB_NAME="posturesec_db"
+
 echo "🛡️  Setting up PostureSec Platform..."
 echo "==========================================="
 
@@ -37,11 +42,11 @@ sudo npm install -g pm2
 # --- Configure PostgreSQL ---
 echo "🗄️  Configuring PostgreSQL..."
 sudo -u postgres psql <<EOF
-CREATE USER posturesec_user WITH PASSWORD 'posturesec_pass_2026';
-CREATE DATABASE posturesec_db OWNER posturesec_user;
-GRANT ALL PRIVILEGES ON DATABASE posturesec_db TO posturesec_user;
-\c posturesec_db
-GRANT ALL ON SCHEMA public TO posturesec_user;
+CREATE USER ${DB_USER} WITH PASSWORD '${DB_PASSWORD}';
+CREATE DATABASE ${DB_NAME} OWNER ${DB_USER};
+GRANT ALL PRIVILEGES ON DATABASE ${DB_NAME} TO ${DB_USER};
+\c ${DB_NAME}
+GRANT ALL ON SCHEMA public TO ${DB_USER};
 EOF
 
 echo "✅ PostgreSQL configured"
@@ -58,6 +63,17 @@ cp -r ~/PostureSec/* /var/www/posturesec/
 echo "📦 Installing backend dependencies..."
 cd /var/www/posturesec/backend
 npm install --production
+
+# --- Backend environment (required by dotenv in src/index.js) ---
+echo "🔐 Writing backend/.env..."
+cat > /var/www/posturesec/backend/.env <<EOF
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=${DB_USER}
+DB_PASSWORD=${DB_PASSWORD}
+DB_NAME=${DB_NAME}
+PORT=5000
+EOF
 
 # --- Build frontend ---
 echo "🔨 Building frontend..."
