@@ -8,14 +8,14 @@ terraform {
     }
   }
 
-  # Remote state (S3 + DynamoDB locking again)
-  backend "s3" {
-    bucket         = "posturesec-terraform-state"
-    key            = "eks/terraform.tfstate"
-    region         = "us-east-1"
-    dynamodb_table = "posturesec-tf-lock"
-    encrypt        = true
-  }
+  # Uncomment and configure for remote state
+  # backend "s3" {
+  #   bucket         = "posturesec-terraform-state"
+  #   key            = "eks/terraform.tfstate"
+  #   region         = "us-east-1"
+  #   dynamodb_table = "posturesec-tf-lock"
+  #   encrypt        = true
+  # }
 }
 
 provider "aws" {
