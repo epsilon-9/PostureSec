@@ -8,7 +8,7 @@ terraform {
     }
   }
 
-  # Remote state (S3 + DynamoDB locking)
+  # Remote state (S3 + DynamoDB locking again)
   backend "s3" {
     bucket         = "posturesec-terraform-state"
     key            = "eks/terraform.tfstate"
