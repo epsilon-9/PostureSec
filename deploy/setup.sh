@@ -54,6 +54,17 @@ sudo chown -R $USER:$USER /var/www/posturesec
 # Copy project files (assumes you've transferred them to ~/PostureSec)
 cp -r ~/PostureSec/* /var/www/posturesec/
 
+# --- Create backend .env for runtime configuration ---
+echo "🔐 Writing backend .env file..."
+cat > /var/www/posturesec/backend/.env <<EOF
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=posturesec_user
+DB_PASSWORD=posturesec_pass_2026
+DB_NAME=posturesec_db
+PORT=5000
+EOF
+echo "✅ backend .env created at /var/www/posturesec/backend/.env"
 # --- Install backend dependencies ---
 echo "📦 Installing backend dependencies..."
 cd /var/www/posturesec/backend
